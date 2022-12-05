@@ -1,0 +1,15 @@
+Source: gst-plugin-cedar
+Section: unknown
+Priority: optional
+Maintainer: unknown <george@unknown>
+Build-Depends: debhelper (>=9),autotools-dev,libgstreamer1.0-dev
+Standards-Version: 3.9.6
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: git://anonscm.debian.org/collab-maint/gst-plugin-cedar.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/gst-plugin-cedar.git
+
+Package: gst-plugin-cedar
+Architecture: armhf
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: gst-plugin-cedar
+ gst-plugin-cedar
