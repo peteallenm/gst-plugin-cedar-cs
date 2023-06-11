@@ -56,13 +56,13 @@ libgstcedar_h264enc_la-h264enc.lo: h264enc.c /usr/include/stdc-predef.h \
  /usr/include/string.h \
  /usr/include/arm-linux-gnueabihf/bits/types/locale_t.h \
  /usr/include/arm-linux-gnueabihf/bits/types/__locale_t.h \
- /usr/include/strings.h /usr/include/vencoder.h \
- /usr/include/sc_interface.h /usr/include/veInterface.h \
+ /usr/include/strings.h /usr/local/include/vencoder.h \
+ /usr/local/include/sc_interface.h /usr/local/include/veInterface.h \
  /usr/include/arm-linux-gnueabihf/sys/time.h /usr/include/time.h \
  /usr/include/arm-linux-gnueabihf/bits/time.h \
  /usr/include/arm-linux-gnueabihf/bits/types/struct_tm.h \
  /usr/include/arm-linux-gnueabihf/bits/types/struct_itimerspec.h \
- /usr/include/memoryAdapter.h /usr/include/math.h \
+ /usr/local/include/memoryAdapter.h /usr/include/math.h \
  /usr/include/arm-linux-gnueabihf/bits/math-vector.h \
  /usr/include/arm-linux-gnueabihf/bits/libm-simd-decl-stubs.h \
  /usr/include/arm-linux-gnueabihf/bits/flt-eval-method.h \
@@ -134,15 +134,15 @@ libgstcedar_h264enc_la-h264enc.lo: h264enc.c /usr/include/stdc-predef.h \
 /usr/include/arm-linux-gnueabihf/bits/types/locale_t.h:
 /usr/include/arm-linux-gnueabihf/bits/types/__locale_t.h:
 /usr/include/strings.h:
-/usr/include/vencoder.h:
-/usr/include/sc_interface.h:
-/usr/include/veInterface.h:
+/usr/local/include/vencoder.h:
+/usr/local/include/sc_interface.h:
+/usr/local/include/veInterface.h:
 /usr/include/arm-linux-gnueabihf/sys/time.h:
 /usr/include/time.h:
 /usr/include/arm-linux-gnueabihf/bits/time.h:
 /usr/include/arm-linux-gnueabihf/bits/types/struct_tm.h:
 /usr/include/arm-linux-gnueabihf/bits/types/struct_itimerspec.h:
-/usr/include/memoryAdapter.h:
+/usr/local/include/memoryAdapter.h:
 /usr/include/math.h:
 /usr/include/arm-linux-gnueabihf/bits/math-vector.h:
 /usr/include/arm-linux-gnueabihf/bits/libm-simd-decl-stubs.h:
