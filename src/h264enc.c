@@ -84,56 +84,6 @@ long long GetNowUs()
 uint32_t FrameTimes[NUM_TIME_STEPS] = {0};
 #endif
 
-int yu12_nv12(unsigned int width, unsigned int height, unsigned char *addr_uv,
-          unsigned char *addr_tmp_uv)
-{
-    unsigned int i, chroma_bytes;
-    unsigned char *u_addr = NULL;
-    unsigned char *v_addr = NULL;
-    unsigned char *tmp_addr = NULL;
-
-    chroma_bytes = width*height/4;
-
-    u_addr = addr_uv;
-    v_addr = addr_uv + chroma_bytes;
-    tmp_addr = addr_tmp_uv;
-
-    for(i=0; i<chroma_bytes; i++)
-    {
-        *(tmp_addr++) = *(u_addr++);
-        *(tmp_addr++) = *(v_addr++);
-    }
-
-    memcpy(addr_uv, addr_tmp_uv, chroma_bytes*2);
-
-    return 0;
-}
-
-int yu12_nv21(unsigned int width, unsigned int height, unsigned char *addr_uv,
-          unsigned char *addr_tmp_uv)
-{
-    unsigned int i, chroma_bytes;
-    unsigned char *u_addr = NULL;
-    unsigned char *v_addr = NULL;
-    unsigned char *tmp_addr = NULL;
-
-    chroma_bytes = width*height/4;
-
-    u_addr = addr_uv;
-    v_addr = addr_uv + chroma_bytes;
-    tmp_addr = addr_tmp_uv;
-
-    for(i=0; i<chroma_bytes; i++)
-    {
-        *(tmp_addr++) = *(v_addr++);
-        *(tmp_addr++) = *(u_addr++);
-    }
-
-    memcpy(addr_uv, addr_tmp_uv, chroma_bytes*2);
-
-    return 0;
-}
-
 
 void init_mb_mode(VencMBModeCtrl *pMBMode, int width, int height)
 {
@@ -296,7 +246,7 @@ void initH264ParamsDefault(h264enc *h264_func)
     h264_func->h264Param.nFramerate = 60;
     h264_func->h264Param.nCodingMode = VENC_FRAME_CODING;
     h264_func->h264Param.nMaxKeyInterval = 16; // FIXME
-    h264_func->h264Param.sProfileLevel.nProfile = VENC_H264ProfileBaseline; //VENC_H264ProfileHigh;
+    h264_func->h264Param.sProfileLevel.nProfile = VENC_H264ProfileHigh; //VENC_H264ProfileHigh; / VENC_H264ProfileBaseline
     h264_func->h264Param.sProfileLevel.nLevel = VENC_H264Level41; // VENC_H264Level51;
     h264_func->h264Param.sQPRange.nMinqp = 10;
     h264_func->h264Param.sQPRange.nMaxqp = 50;
@@ -345,6 +295,8 @@ int initH264Func(h264enc *h264_func, int width, int height)
     return 0;
 }
 
+
+static h264enc H264Enc = {0};
 void h264enc_free(h264enc *c)
 {
     if(c->pVideoEnc)
@@ -353,10 +305,13 @@ void h264enc_free(h264enc *c)
     }
     c->pVideoEnc = NULL;
 
+    
+    if(H264Enc.baseConfig.memops)
+    {
+        CdcMemClose(H264Enc.baseConfig.memops);
+    }
     releaseMb(c);
 }
-
-static h264enc H264Enc = {0};
     
 h264enc *h264enc_new(const struct h264enc_params *p)
 {

@@ -82,21 +82,21 @@ static GstStaticPadTemplate sink_factory = GST_STATIC_PAD_TEMPLATE("sink",
 		"video/x-raw, "
 		"format = (string) NV12, "
 		"width = (int) [16,1280], "
-		"height = (int) [16,720]"
-		/*"framerate=(fraction)[1/1,25/1]"*/
+		"height = (int) [16,720], "
+		"framerate = (fraction) [0/1, MAX] "
 	)
 );
 
 static GstStaticPadTemplate src_factory = GST_STATIC_PAD_TEMPLATE("src",
 	GST_PAD_SRC,
 	GST_PAD_ALWAYS,
-	GST_STATIC_CAPS (
-		"video/x-h264, "
-		"stream-format = (string) byte-stream, "
-		"alignment = (string) nal, "
-		"profile = (string) { main }"
-	)
-);
+    GST_STATIC_CAPS ("video/x-h264, "
+        "framerate = (fraction) [0/1, MAX], "
+        "width = (int) [ 1, MAX ], " "height = (int) [ 1, MAX ], "
+        "stream-format = (string) byte-stream, "
+        "alignment = (string) au, "
+        "profile = (string) { high, main, baseline,  }")
+    );
 
 G_DEFINE_TYPE(GstCedarH264Enc, gst_cedarh264enc, GST_TYPE_ELEMENT);
 
@@ -117,10 +117,10 @@ static void gst_cedarh264enc_class_init(GstCedarH264EncClass *klass)
 	gobject_class = (GObjectClass *) klass;
 	gstelement_class = (GstElementClass *) klass;
 	gst_element_class_set_details_simple(gstelement_class,
-		"cedar_h264enc",
-		"CedarX H264 Encoder",
-		"H264 Encoder Plugin for CedarX hardware",
-		"Enrico Butera <ebutera@users.berlios.de>, Kyle Hu <kyle.hu.gz@gmail.com>, George Talusan <george.talusan@gmail.com>");
+		"cedar_h264enc_cs",
+		"CedarX H264 Encoder CS",
+		"H264 Encoder Plugin for CedarX hardware based on the Allwinner (closed source) library",
+		"Pete Allen <peter.allenm@gmail.com>, Enrico Butera <ebutera@users.berlios.de>, Kyle Hu <kyle.hu.gz@gmail.com>, George Talusan <george.talusan@gmail.com>");
 
 	gst_element_class_add_pad_template(gstelement_class, gst_static_pad_template_get(&src_factory));
 	gst_element_class_add_pad_template(gstelement_class, gst_static_pad_template_get(&sink_factory));
@@ -132,7 +132,7 @@ static void gst_cedarh264enc_class_init(GstCedarH264EncClass *klass)
 
     g_object_class_install_property (gobject_class, PROP_BITRATE,
 		g_param_spec_int ("bitrate", "BITRATE", "H264 target bitrate (kbits)",
-		1000, 20000, 5000, G_PARAM_READWRITE));
+		1000, 32000, 5000, G_PARAM_READWRITE));
         
 	g_object_class_install_property (gobject_class, PROP_QP,
 		g_param_spec_int ("qp", "QP", "H264 quantization parameters",
@@ -475,10 +475,10 @@ GST_PLUGIN_DEFINE (
 	GST_VERSION_MAJOR,
 	GST_VERSION_MINOR,
 	cedar_h264enc,
-	"CedarX H264 Encoder",
+	"CedarX H264 Encoder CS",
 	cedar_h264enc_init,
 	VERSION,
 	"LGPL",
 	"Sunxi",
-	"http://github.com/gtalusan/gst-plugin-cedar"
+	"https://github.com/peteallenm/gst-plugin-cedar-cs"
 )
